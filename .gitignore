@@ -1,16 +1,47 @@
 node_modules/
 dist/
 build/
+dist-ssr/
+out/
 .cache/
 .env*
 .vite/
+.vite-inspect/
 vite.config.*.timestamp-*
 *.tsbuildinfo
 *-debug.log*
 logs/
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
 .claude-replay.*
 .tmp-*
+coverage/
+.eslintcache
+*.local
+.vercel/
+.netlify/
+
+# OS-generated
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+
+# Editor-generated
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
 # Platform-managed agentplat state, not project source. In the
 # client-initiated single-repo workspace layout (make's `Path: "."` spec) the

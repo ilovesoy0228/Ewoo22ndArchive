@@ -11,78 +11,9 @@
 
 <script src="https://cdn.tailwindcss.com"></script>
 
-<style>
-  :root {
-    --font-sans: 'DM Sans', system-ui, sans-serif;
-    --font-serif: 'DM Serif Display', Georgia, serif;
-  }
-
-  html {
-    scroll-behavior: smooth;
-    font-family: var(--font-sans);
-    background-color: #DDDAD4;
-  }
-
-  body {
-    margin: 0;
-    padding: 0;
-    background-color: #DDDAD4;
-  }
-
-  * {
-    box-sizing: border-box;
-  }
-
-  ::-webkit-scrollbar {
-    width: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #C5C2BB;
-    border-radius: 3px;
-  }
-
-  .font-serif {
-    font-family: var(--font-serif);
-  }
-
-  .font-sans {
-    font-family: var(--font-sans);
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  #book.is-open {
-    animation: fadeIn 0.6s ease both;
-  }
-
-  /* nav dropdown: hover to open, matches onMouseEnter/onMouseLeave in the source */
-  .nav-item .nav-dropdown {
-    display: none;
-  }
-  .nav-item:hover .nav-dropdown {
-    display: block;
-  }
-  .nav-item:hover > button {
-    color: #3A7AFE;
-  }
-
-  #cover-scene {
-    display: flex;
-  }
-  #book {
-    display: none;
-  }
-  #cover-scene.hidden,
-  #book.hidden {
-    display: none;
-  }
-</style>
+<link rel="stylesheet" href="assets/css/global.css" />
+<link rel="stylesheet" href="assets/css/components/nav.css" />
+<link rel="stylesheet" href="assets/css/components/book.css" />
 </head>
 <body>
 
@@ -809,101 +740,8 @@
 
 </div>
 
-<script>
-  // ── Cover click → open book (source: App().handleOpen) ─────────────
-  document.getElementById("cover-click-target").addEventListener("click", function () {
-    document.getElementById("cover-scene").classList.add("hidden");
-    var book = document.getElementById("book");
-    book.style.display = "block";
-    book.classList.add("is-open");
-    setTimeout(function () {
-      document.getElementById("book").scrollIntoView({ behavior: "smooth" });
-    }, 400);
-  });
-
-  // ── Guest book canvas drawing (source: GuestBook getPos/startDraw/draw/endDraw) ──
-  (function () {
-    var canvas = document.getElementById("guestbook-canvas");
-    var ctx = canvas.getContext("2d");
-    var isDrawing = false;
-    var lastPos = null;
-
-    function getPos(e) {
-      var rect = canvas.getBoundingClientRect();
-      if (e.touches && e.touches.length) {
-        return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
-      }
-      return { x: e.clientX - rect.left, y: e.clientY - rect.top };
-    }
-
-    function startDraw(e) {
-      isDrawing = true;
-      lastPos = getPos(e);
-    }
-
-    function draw(e) {
-      if (!isDrawing || !lastPos) return;
-      var pos = getPos(e);
-      ctx.beginPath();
-      ctx.moveTo(lastPos.x, lastPos.y);
-      ctx.lineTo(pos.x, pos.y);
-      ctx.strokeStyle = "#333333";
-      ctx.lineWidth = 1.5;
-      ctx.lineCap = "round";
-      ctx.stroke();
-      lastPos = pos;
-    }
-
-    function endDraw() {
-      isDrawing = false;
-      lastPos = null;
-    }
-
-    function clearCanvas() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
-
-    canvas.addEventListener("mousedown", startDraw);
-    canvas.addEventListener("mousemove", draw);
-    canvas.addEventListener("mouseup", endDraw);
-    canvas.addEventListener("mouseleave", endDraw);
-    canvas.addEventListener("touchstart", startDraw);
-    canvas.addEventListener("touchmove", draw);
-    canvas.addEventListener("touchend", endDraw);
-
-    document.getElementById("guestbook-clear").addEventListener("click", clearCanvas);
-
-    // ── Guest book form submit (source: GuestBook.submit) ─────────────
-    document.getElementById("guestbook-submit").addEventListener("click", function () {
-      var nameInput = document.getElementById("guestbook-name");
-      var messageInput = document.getElementById("guestbook-message");
-      var name = nameInput.value.trim();
-      var message = messageInput.value.trim();
-      if (!name && !message) return;
-
-      var entry = document.createElement("div");
-      entry.className = "border-b border-[#E0DDD7] pb-6";
-
-      var nameEl = document.createElement("p");
-      nameEl.className = "text-xs text-[#8A8A8A] mb-1 uppercase tracking-widest";
-      nameEl.style.fontFamily = "var(--font-sans)";
-      nameEl.textContent = name || "익명";
-
-      var messageEl = document.createElement("p");
-      messageEl.className = "text-sm text-[#333333] leading-relaxed";
-      messageEl.style.fontFamily = "var(--font-sans)";
-      messageEl.textContent = message;
-
-      entry.appendChild(nameEl);
-      entry.appendChild(messageEl);
-      document.getElementById("guestbook-entries").appendChild(entry);
-
-      nameInput.value = "";
-      messageInput.value = "";
-      clearCanvas();
-    });
-  })();
-</script>
+<script src="assets/js/cover.js"></script>
+<script src="assets/js/guestbook.js"></script>
 
 </body>
 </html>

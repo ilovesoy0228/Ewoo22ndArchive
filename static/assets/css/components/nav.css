@@ -1,0 +1,10 @@
+/* nav dropdown: hover to open, matches onMouseEnter/onMouseLeave in the source */
+.nav-item .nav-dropdown {
+  display: none;
+}
+.nav-item:hover .nav-dropdown {
+  display: block;
+}
+.nav-item:hover > button {
+  color: #3A7AFE;
+}
